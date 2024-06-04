@@ -32,26 +32,62 @@ Project File Date:  06/04/2024
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil_uVision\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f10x_md.s...
+compiling QMC5883L.c...
+I2C.h(9): warning:  #1-D: last line of file ends without a newline
+  void I2C1_ReadData(uint8_t address, uint8_t reg, int32_t* buffer, uint8_t length);
+Delay.h(3): warning:  #1-D: last line of file ends without a newline
+  void DelayMs(uint32_t ms);
+QMC5883L.c(95): warning:  #1-D: last line of file ends without a newline
+  }
+QMC5883L.c: 3 warnings, 0 errors
+compiling Delay.c...
+Delay.c(25): warning:  #1-D: last line of file ends without a newline
+  }
+Delay.c: 1 warning, 0 errors
+compiling I2C.c...
+Delay.h(3): warning:  #1-D: last line of file ends without a newline
+  void DelayMs(uint32_t ms);
+I2C.c(144): warning:  #1-D: last line of file ends without a newline
+  }
+I2C.c: 2 warnings, 0 errors
+compiling LCD.c...
+I2C.h(9): warning:  #1-D: last line of file ends without a newline
+  void I2C1_ReadData(uint8_t address, uint8_t reg, int32_t* buffer, uint8_t length);
+Delay.h(3): warning:  #1-D: last line of file ends without a newline
+  void DelayMs(uint32_t ms);
+LCD.c: 2 warnings, 0 errors
 compiling system_stm32f10x.c...
+compiling UART.c...
+UART.c(43): warning:  #1-D: last line of file ends without a newline
+  }
+UART.c: 1 warning, 0 errors
 compiling Main.c...
-Main.c(66): warning:  #223-D: function "Delay_ms" declared implicitly
-  	Delay_ms(1);
-Main.c(160): warning:  #223-D: function "Delay_ms" declared implicitly
-  	Delay_ms(50);  // wait for >40ms
-Main.c(164): warning:  #223-D: function "Delay_us" declared implicitly
-  	Delay_us(150);  // wait for >100us
-Main.c(201): warning:  #159-D: declaration is incompatible with previous "Delay_us"  (declared at line 164)
-  void Delay_us(uint32_t us) {
-Main.c(206): warning:  #159-D: declaration is incompatible with previous "Delay_ms"  (declared at line 66)
-  void Delay_ms(uint32_t ms) {
-Main.c(438): warning:  #223-D: function "sprintf" declared implicitly
-  		sprintf(buffer, "X %d, Y %d\r\n", x, y);
-Main.c(409): warning:  #177-D: variable "heading"  was declared but never referenced
+I2C.h(9): warning:  #1-D: last line of file ends without a newline
+  void I2C1_ReadData(uint8_t address, uint8_t reg, int32_t* buffer, uint8_t length);
+Delay.h(3): warning:  #1-D: last line of file ends without a newline
+  void DelayMs(uint32_t ms);
+LCD.h(7): warning:  #1-D: last line of file ends without a newline
+  void lcd_send_string (char *str);
+QMC5883L.h(5): warning:  #1295-D: Deprecated declaration QMC5883L_Calibrate - give arg types
+  void QMC5883L_Calibrate();
+QMC5883L.h(6): warning:  #1-D: last line of file ends without a newline
+  void QMC5883L_GetCalibratedData(int16_t *x, int16_t *y, int16_t *z);
+UART.h(4): warning:  #1-D: last line of file ends without a newline
+  void USART_Init(void);
+Main.c(37): warning:  #177-D: variable "x"  was declared but never referenced
+  	int16_t x, y, z;
+Main.c(37): warning:  #177-D: variable "y"  was declared but never referenced
+  	int16_t x, y, z;
+Main.c(37): warning:  #177-D: variable "z"  was declared but never referenced
+  	int16_t x, y, z;
+Main.c(38): warning:  #177-D: variable "buffer"  was declared but never referenced
+  	char buffer[32];
+Main.c(39): warning:  #177-D: variable "heading"  was declared but never referenced
   	float heading;
-Main.c: 7 warnings, 0 errors
+Main.c: 11 warnings, 0 errors
 linking...
-Program Size: Code=5248 RO-data=268 RW-data=32 ZI-data=1632  
-".\Objects\QMC5883L.axf" - 0 Error(s), 7 Warning(s).
+Program Size: Code=1264 RO-data=252 RW-data=0 ZI-data=1632  
+".\Objects\QMC5883L.axf" - 0 Error(s), 20 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -82,7 +118,7 @@ Package Vendor: Keil
       Source file:   Device/Source/system_stm32f10x.c
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
       Include file:  RTE_Driver/Config/RTE_Device.h
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
