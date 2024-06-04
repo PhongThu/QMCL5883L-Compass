@@ -25,7 +25,7 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 D:\QMCL5883L-Compass\QMC5883L.uvprojx
-Project File Date:  06/03/2024
+Project File Date:  06/04/2024
 
 <h2>Output:</h2>
 *** Warning: The configured compiler version '5.06 update 7 (build 960)' does not support the selected User Based Licensing technology.
@@ -34,22 +34,24 @@ Rebuild target 'Target 1'
 assembling startup_stm32f10x_md.s...
 compiling system_stm32f10x.c...
 compiling Main.c...
-Main.c(62): warning:  #223-D: function "Delay_ms" declared implicitly
+Main.c(66): warning:  #223-D: function "Delay_ms" declared implicitly
   	Delay_ms(1);
-Main.c(156): warning:  #223-D: function "Delay_ms" declared implicitly
+Main.c(160): warning:  #223-D: function "Delay_ms" declared implicitly
   	Delay_ms(50);  // wait for >40ms
-Main.c(160): warning:  #223-D: function "Delay_us" declared implicitly
+Main.c(164): warning:  #223-D: function "Delay_us" declared implicitly
   	Delay_us(150);  // wait for >100us
-Main.c(197): warning:  #159-D: declaration is incompatible with previous "Delay_us"  (declared at line 160)
+Main.c(201): warning:  #159-D: declaration is incompatible with previous "Delay_us"  (declared at line 164)
   void Delay_us(uint32_t us) {
-Main.c(202): warning:  #159-D: declaration is incompatible with previous "Delay_ms"  (declared at line 62)
+Main.c(206): warning:  #159-D: declaration is incompatible with previous "Delay_ms"  (declared at line 66)
   void Delay_ms(uint32_t ms) {
-Main.c(392): warning:  #223-D: function "sprintf" declared implicitly
-  		sprintf(buffer, "X %d, Y %d", x, y);
-Main.c: 6 warnings, 0 errors
+Main.c(438): warning:  #223-D: function "sprintf" declared implicitly
+  		sprintf(buffer, "X %d, Y %d\r\n", x, y);
+Main.c(409): warning:  #177-D: variable "heading"  was declared but never referenced
+  	float heading;
+Main.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=12076 RO-data=604 RW-data=16 ZI-data=1632  
-".\Objects\QMC5883L.axf" - 0 Error(s), 6 Warning(s).
+Program Size: Code=5248 RO-data=268 RW-data=32 ZI-data=1632  
+".\Objects\QMC5883L.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -76,10 +78,10 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE@5.6.0
 
    * Component: Keil::Device:Startup@1.0.0
-      Include file:  RTE_Driver/Config/RTE_Device.h
+      Source file:   Device/Source/ARM/startup_stm32f10x_md.s
       Source file:   Device/Source/system_stm32f10x.c
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
-      Source file:   Device/Source/ARM/startup_stm32f10x_md.s
+      Include file:  RTE_Driver/Config/RTE_Device.h
 Build Time Elapsed:  00:00:00
 </pre>
 </body>

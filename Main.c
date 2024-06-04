@@ -10,6 +10,10 @@ float PI = 3.14158;
 float offsetX = 0.0;
 float offsetY = 0.0;
 float offsetZ = 0.0;
+float scaleX = 1.0;
+float scaleY = 1.0;
+float scaleZ = 1.0;
+float avg_scale = 1.0;
 char message[100];
 
 void I2C1_Init(void) {
@@ -302,24 +306,6 @@ char* CalculateDirect(float k) {
 		return "B";
 }
 
-//float CalculateHeading(float x, float y) {
-//	float heading ;
-//	if (y > 0) 
-//	{
-//		heading = 90 - atan2(x, y) * 180 / PI;
-//	}
-//	else if (y < 0)
-//	{
-//		heading = 270 - atan2(x, y) * 180 / PI;
-//	}
-//	else if (x < 0)
-//		heading = 180;
-//	else
-//		heading = 0;
-//	
-//    return heading;
-//}
-
 float CalculateHeading(float x, float y) {
 	float k = atan2(x, y)*180/PI;
 	if (k < 0)
@@ -347,57 +333,122 @@ void QMC5883L_Calibrate() {
 		Delay_us(1000);
 	}
 	
-	 offsetX = (xMax + xMin) / 2.0;
-   offsetY = (yMax + yMin) / 2.0;
-   offsetZ = (zMax + zMin) / 2.0;
+	offsetX = (xMax + xMin) / 2.0;
+  offsetY = (yMax + yMin) / 2.0;
+  offsetZ = (zMax + zMin) / 2.0;
+	
+	scaleX = (xMax - xMin) / 2.0;
+	scaleY = (yMax - yMin) / 2.0;
+	scaleZ = (zMax - zMin) / 2.0;
+	
+	avg_scale = (scaleX + scaleY + scaleZ) / 3;
+	
 }
 
 void QMC5883L_GetCalibratedData(int16_t *x, int16_t *y, int16_t *z) {
     int16_t rawX, rawY, rawZ;
     QMC5883L_ReadData(&rawX, &rawY, &rawZ);
 
-    *x = rawX - offsetX;
-    *y = rawY - offsetY;
-    *z = rawZ - offsetZ;
+    *x = (rawX - offsetX) * avg_scale / scaleX;
+    *y = (rawY - offsetY) * avg_scale / scaleY;
+    *z = (rawZ - offsetZ) * avg_scale / scaleZ;
 }
+void RCC_Configuration(void)
+{
+    // Enable GPIOA and USART1 clock
+    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN | RCC_APB2ENR_USART1EN;
+}
+
+
+void GPIO_Configuration(void)
+{
+    // Configure PA9 as alternate function push-pull (TX)
+    GPIOA->CRH &= ~(0xF << 4); // Clear PA9 settings
+    GPIOA->CRH |= (0xB << 4);  // Set PA9 as AF output push-pull, max speed 50 MHz
+
+    // Configure PA10 as input floating (RX)
+    GPIOA->CRH &= ~(0xF << 8); // Clear PA10 settings
+    GPIOA->CRH |= (0x4 << 8);  // Set PA10 as input floating
+}
+
+void USART_Configuration(void)
+{
+    // Configure baud rate
+    USART1->BRR = 0x1D4C; // Assuming 72 MHz clock, 9600 baud
+
+    // Enable USART, TX and RX
+    USART1->CR1 |= (1 << 13) | (1 << 3) | (1 << 2); // UE, TE, RE
+}
+
+void USART_SendChar(uint8_t ch)
+{
+    while (!(USART1->SR & (1 << 7))); // Wait until TXE (Transmit Data Register Empty) bit is set
+    USART1->DR = ch; // Transmit data
+		while (!(USART1->SR & 1<<6));
+		USART1->SR &= ~(1<<6);
+}
+
+void USART_SendString(const char *str)
+{
+    while(*str)
+    {
+        USART_SendChar(*str++);
+    }
+}
+
+uint8_t USART_ReceiveChar(void)
+{
+    while (!(USART1->SR & (1 << 5))); // Wait until RXNE (Read Data Register Not Empty) bit is set
+    return (uint8_t)USART1->DR; // Receive data
+}
+
 int main(void)
 {
 	int16_t x, y, z;
 	char buffer[32];
 	float heading;
 	
+	RCC_Configuration();
+	GPIO_Configuration();
+	USART_Configuration();
+	
 	Delay_Config ();
 	
 	I2C1_Init();
 	I2C2_Init();
 	
-	lcd_init ();
+//	lcd_init ();
 	
 	QMC5883L_Init();
 	QMC5883L_ReadData(&x, &y, &z);
 	
-	lcd_put_cur(0, 0);
-	lcd_send_string("Wait for calibrate");
+//	lcd_put_cur(0, 0);
+//	lcd_send_string("Calibrating...");
+	
+	USART_SendString("Calibrating...");
+	
 	QMC5883L_Calibrate();
-	lcd_clear();
-//	Delay_ms(10);
-//	lcd_send_string("Complete");
+	
 //	lcd_clear();
 	
   while (1)
    {
 		QMC5883L_GetCalibratedData(&x, &y, &z);
+		 
+		sprintf(buffer, "X %d, Y %d\r\n", x, y);
 		
-		lcd_put_cur (0,0);
-		sprintf(buffer, "X %d, Y %d", x, y);
-		lcd_send_string(buffer);
-		
-		heading = CalculateHeading(x, y);
-		char* direct = CalculateDirect(heading);
-		lcd_put_cur (1,0);
-		 sprintf(buffer, "%s: %.2f",direct, heading);
-		lcd_send_string(buffer);
-		Delay_ms(500);
-		lcd_clear();
+		USART_SendString(buffer);
+//		lcd_put_cur (0,0);
+//		lcd_send_string(buffer);
+		 
+//		heading = CalculateHeading(x, y);
+//		char* direct = CalculateDirect(heading);
+//		sprintf(buffer, "%s: %.2f\r\n",direct, heading);
+//		 
+//		USART_SendString(buffer);
+//		lcd_put_cur (1,0);
+//		lcd_send_string(buffer);
+		Delay_ms(1000);
+//		lcd_clear();
    }
 }
