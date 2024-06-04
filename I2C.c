@@ -45,7 +45,7 @@ void I2C1_WriteData(uint8_t address, uint8_t reg, uint8_t data) {
     I2C1->CR1 |= I2C_CR1_STOP;
 }
 
-void I2C1_ReadData(uint8_t address, uint8_t reg, int32_t* buffer, uint8_t length) {
+void I2C1_ReadData(uint8_t address, uint8_t reg, int16_t* buffer, uint8_t length) {
     // Bat dau truyen
     I2C1->CR1 |= I2C_CR1_START;
     while (!(I2C1->SR1 & I2C_SR1_SB));

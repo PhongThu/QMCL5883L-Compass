@@ -19,7 +19,7 @@ void LCD_Write(uint8_t address, uint8_t *data, int size) {
 }
 
 /* LCD */
-void lcd_send_cmd(char cmd) {
+void LCD_SendCmd(char cmd) {
 	char data_u, data_l;
 	uint8_t data_t[4];
 	data_u = (cmd&0xf0);
@@ -31,7 +31,7 @@ void lcd_send_cmd(char cmd) {
 	LCD_Write (SLAVE_ADDRESS_LCD, data_t, 4);
 }
 
-void lcd_send_data (char data) {
+void LCD_SendData (char data) {
 	char data_u, data_l;
 	uint8_t data_t[4];
 	data_u = (data&0xf0);
@@ -43,15 +43,15 @@ void lcd_send_data (char data) {
 	LCD_Write (SLAVE_ADDRESS_LCD, data_t, 4);
 }
 
-void lcd_clear (void) {
-	lcd_send_cmd (0x80);
+void LCD_Clear (void) {
+	LCD_SendCmd(0x80);
 	for (int i=0; i<70; i++)
 	{
-		lcd_send_data (' ');
+		LCD_SendData(' ');
 	}
 }
 
-void lcd_put_cur(int row, int col) {
+void LCD_PutCur(int row, int col) {
     switch (row)
     {
         case 0:
@@ -62,34 +62,40 @@ void lcd_put_cur(int row, int col) {
             break;
     }
 
-    lcd_send_cmd (col);
+    LCD_SendCmd(col);
 }
 
-void lcd_init (void) {
+void LCD_Init(void) {
 	// 4 bit initialisation
 	DelayMs(50);  // wait for >40ms
-	lcd_send_cmd (0x30);
+	LCD_SendCmd(0x30);
+	
 	DelayMs(5);  // wait for >4.1ms
-	lcd_send_cmd (0x30);
+	LCD_SendCmd(0x30);
+	
 	DelayUs(150);  // wait for >100us
-	lcd_send_cmd (0x30);
+	LCD_SendCmd(0x30);
+	
 	DelayMs(10);
-	lcd_send_cmd (0x20);  // 4bit mode
-	DelayMs(10);
+	LCD_SendCmd(0x20);  // 4bit mode
 
   // dislay initialisation
-	lcd_send_cmd (0x28); // Function set --> DL=0 (4 bit mode), N = 1 (2 line display) F = 0 (5x8 characters)
+	DelayMs(10);
+	LCD_SendCmd (0x28); // Function set --> DL=0 (4 bit mode), N = 1 (2 line display) F = 0 (5x8 characters)
+	
 	DelayMs(1);
-	lcd_send_cmd (0x08); //Display on/off control --> D=0,C=0, B=0  ---> display off
+	LCD_SendCmd (0x08); //Display on/off control --> D=0,C=0, B=0  ---> display off
+	
 	DelayMs(1);
-	lcd_send_cmd (0x01);  // clear display
+	LCD_SendCmd (0x01);  // clear display
+	
 	DelayMs(1);
+	LCD_SendCmd (0x06); //Entry mode set --> I/D = 1 (increment cursor) & S = 0 (no shift)
+	
 	DelayMs(1);
-	lcd_send_cmd (0x06); //Entry mode set --> I/D = 1 (increment cursor) & S = 0 (no shift)
-	DelayMs(1);
-	lcd_send_cmd (0x0C); //Display on/off control --> D = 1, C and B = 0. (Cursor and blink, last two bits)
+	LCD_SendCmd (0x0C); //Display on/off control --> D = 1, C and B = 0. (Cursor and blink, last two bits)
 }
 
-void lcd_send_string (char *str) {
-	while (*str) lcd_send_data (*str++);
+void LCD_SendString(char *str) {
+	while (*str) LCD_SendData (*str++);
 }

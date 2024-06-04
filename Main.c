@@ -45,40 +45,49 @@ int main(void)
 	I2C1_Init();
 	I2C2_Init();
 	
-//	lcd_init ();
+	LCD_Init();
 	
-//	QMC5883L_Init();
+	QMC5883L_Init();
 //	QMC5883L_ReadData(&x, &y, &z);
 	
-//	lcd_put_cur(0, 0);
-//	lcd_send_string("Calibrating...");
-	
-	USART_SendString("Calibrating...");
-	
-//	QMC5883L_Calibrate();
-	
-//	lcd_clear();
+	LCD_PutCur(0, 0);
+	LCD_SendString("Calibrating...");
+//	
+//	USART_SendString("Calibrating...");
+//	DelayMs(100);
+	QMC5883L_Calibrate();
+//	QMC5883L_GetOffset(message);
+//	USART_SendString(message);
+//	DelayMs(10000);
+//	LCD_Clear();
 	
   while (1)
    {
-//		QMC5883L_GetCalibratedData(&x, &y, &z);
 //		QMC5883L_ReadData(&x, &y, &z);
+//		sprintf(buffer, "X %d, Y %d\t", x, y);
+//		USART_SendString(buffer); 
+		 
+		QMC5883L_GetCalibratedData(&x, &y, &z);
+		heading = CalculateHeading(x, y);
+		char* direct = CalculateDirect(heading);
+//		 
 //		sprintf(buffer, "X %d, Y %d\r\n", x, y);
 //		
 //		USART_SendString(buffer);
-//		lcd_put_cur (0,0);
-//		lcd_send_string(buffer);
+		 
+		sprintf(buffer, "%s: %.2f", direct, heading); 
+		LCD_PutCur (0,0);
+		LCD_SendString(buffer);
 //		 
-//		heading = CalculateHeading(x, y);
-//		char* direct = CalculateDirect(heading);
 //		sprintf(buffer, "%s: %.2f\r\n",direct, heading);
-//		 
 //		USART_SendString(buffer);
-//		lcd_put_cur (1,0);
-//		lcd_send_string(buffer);
+		 
+//		LCD_PutCur (1,0);
+//		LCD_SendString(buffer);
 //		DelayMs(1000);
-//		lcd_clear();
-		 USART_SendString("Hello");
-		 DelayMs(100);
+//		LCD_Clear();
+//		 USART_SendString("Hello");
+		 DelayMs(300);
+		 LCD_Clear();
    }
 }
