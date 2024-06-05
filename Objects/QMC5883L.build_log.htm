@@ -25,61 +25,51 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 D:\QMCL5883L-Compass\QMC5883L.uvprojx
-Project File Date:  06/04/2024
+Project File Date:  06/05/2024
 
 <h2>Output:</h2>
 *** Warning: The configured compiler version '5.06 update 7 (build 960)' does not support the selected User Based Licensing technology.
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil_uVision\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f10x_md.s...
-compiling I2C.c...
-Delay.h(3): warning:  #1-D: last line of file ends without a newline
-  void DelayMs(uint32_t ms);
-I2C.c(144): warning:  #1-D: last line of file ends without a newline
-  }
-I2C.c: 2 warnings, 0 errors
-compiling QMC5883L.c...
-I2C.h(9): warning:  #1-D: last line of file ends without a newline
-  void I2C1_ReadData(uint8_t address, uint8_t reg, int32_t* buffer, uint8_t length);
-Delay.h(3): warning:  #1-D: last line of file ends without a newline
-  void DelayMs(uint32_t ms);
-QMC5883L.c(98): warning:  #223-D: function "sprintf" declared implicitly
-  	sprintf(s,"OffsetX: %.2f, OffsetY: %.2f, OffsetZ: %.2f\r\n",offsetX, offsetY, offsetZ);
-QMC5883L.c(99): warning:  #1-D: last line of file ends without a newline
-  }
-QMC5883L.c: 4 warnings, 0 errors
-compiling UART.c...
-UART.c(43): warning:  #1-D: last line of file ends without a newline
-  }
-UART.c: 1 warning, 0 errors
-compiling LCD.c...
-I2C.h(9): warning:  #1-D: last line of file ends without a newline
-  void I2C1_ReadData(uint8_t address, uint8_t reg, int32_t* buffer, uint8_t length);
-Delay.h(3): warning:  #1-D: last line of file ends without a newline
-  void DelayMs(uint32_t ms);
-LCD.c: 2 warnings, 0 errors
-compiling system_stm32f10x.c...
 compiling Main.c...
-I2C.h(9): warning:  #1-D: last line of file ends without a newline
-  void I2C1_ReadData(uint8_t address, uint8_t reg, int32_t* buffer, uint8_t length);
-Delay.h(3): warning:  #1-D: last line of file ends without a newline
-  void DelayMs(uint32_t ms);
-LCD.h(7): warning:  #1-D: last line of file ends without a newline
-  void LCD_SendString(char *str);
-QMC5883L.h(5): warning:  #1295-D: Deprecated declaration QMC5883L_Calibrate - give arg types
-  void QMC5883L_Calibrate();
-QMC5883L.h(6): warning:  #1-D: last line of file ends without a newline
-  void QMC5883L_GetCalibratedData(int16_t *x, int16_t *y, int16_t *z);
-UART.h(5): warning:  #1-D: last line of file ends without a newline
-  void QMC5883L_GetOffset(char* s);
-Main.c: 6 warnings, 0 errors
+I2C.h(1): warning:  #1295-D: Deprecated declaration I2C_Init - give arg types
+  void I2C_Init();
+I2C.h(2): warning:  #1295-D: Deprecated declaration I2C_Start - give arg types
+  void I2C_Start();
+I2C.h(5): warning:  #1295-D: Deprecated declaration I2C_Stop - give arg types
+  void I2C_Stop();
+I2C.h(8): warning:  #1-D: last line of file ends without a newline
+  void I2C_WriteData(uint8_t address, uint8_t reg, uint8_t data);
+HMC5883L.h(5): warning:  #1295-D: Deprecated declaration HMC5883L_Calibrate - give arg types
+  void HMC5883L_Calibrate();
+Main.c: 5 warnings, 0 errors
+compiling system_stm32f10x.c...
+compiling I2C.c...
 compiling Delay.c...
-Delay.c(25): warning:  #1-D: last line of file ends without a newline
-  }
-Delay.c: 1 warning, 0 errors
+compiling LCD.c...
+I2C.h(1): warning:  #1295-D: Deprecated declaration I2C_Init - give arg types
+  void I2C_Init();
+I2C.h(2): warning:  #1295-D: Deprecated declaration I2C_Start - give arg types
+  void I2C_Start();
+I2C.h(5): warning:  #1295-D: Deprecated declaration I2C_Stop - give arg types
+  void I2C_Stop();
+I2C.h(8): warning:  #1-D: last line of file ends without a newline
+  void I2C_WriteData(uint8_t address, uint8_t reg, uint8_t data);
+LCD.c: 4 warnings, 0 errors
+compiling HMC5883L.c...
+I2C.h(1): warning:  #1295-D: Deprecated declaration I2C_Init - give arg types
+  void I2C_Init();
+I2C.h(2): warning:  #1295-D: Deprecated declaration I2C_Start - give arg types
+  void I2C_Start();
+I2C.h(5): warning:  #1295-D: Deprecated declaration I2C_Stop - give arg types
+  void I2C_Stop();
+I2C.h(8): warning:  #1-D: last line of file ends without a newline
+  void I2C_WriteData(uint8_t address, uint8_t reg, uint8_t data);
+HMC5883L.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=12340 RO-data=604 RW-data=32 ZI-data=1632  
-".\Objects\QMC5883L.axf" - 0 Error(s), 16 Warning(s).
+Program Size: Code=13406 RO-data=626 RW-data=68 ZI-data=1636  
+".\Objects\QMC5883L.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -110,7 +100,7 @@ Package Vendor: Keil
       Source file:   Device/Source/system_stm32f10x.c
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
       Include file:  RTE_Driver/Config/RTE_Device.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

@@ -10,3 +10,4 @@
 .\objects\qmc5883l.o: I2C.h
 .\objects\qmc5883l.o: Delay.h
 .\objects\qmc5883l.o: D:\Keil_uVision\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
+.\objects\qmc5883l.o: D:\Keil_uVision\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h

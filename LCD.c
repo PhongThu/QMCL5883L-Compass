@@ -4,9 +4,9 @@
 #define SLAVE_ADDRESS_LCD 0x27
 
 void LCD_Write(uint8_t address, uint8_t *data, int size) {
-	I2C2_Start();
+	I2C_Start();
 
-	I2C2_Address(address);
+	I2C_Address(address);
 	
    while (size)
    {

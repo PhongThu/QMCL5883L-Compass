@@ -12,5 +12,5 @@
 .\objects\main.o: I2C.h
 .\objects\main.o: Delay.h
 .\objects\main.o: LCD.h
-.\objects\main.o: QMC5883L.h
+.\objects\main.o: HMC5883L.h
 .\objects\main.o: UART.h
