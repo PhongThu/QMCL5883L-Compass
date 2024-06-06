@@ -5,7 +5,6 @@
 #include "Delay.h"
 #include "LCD.h"
 #include "HMC5883L.h"
-#include "UART.h"
 
 // Trang thai cua he thong
 
@@ -107,6 +106,7 @@ int main(void)
 	Delay_Config();
 	I2C_Init();
 	LCD_Init();
+//	QMC5883L_Init();
 	HMC5883L_Init();
 
 	LCD_PutCur(0, 0);
@@ -115,15 +115,25 @@ int main(void)
 	HMC5883L_Calibrate();
 	DelayMs(1);
 	LCD_Clear();
-	
+
 	while (1)
   {
-		HMC5883L_GetCalibratedData(&x, &y, &z);
-		heading = CalculateHeading(x, y);
-		direct = CalculateDirect(heading);
-		sprintf(buffer, "%-2s: %-3.0f", direct, heading); 
-		LCD_PutCur (0,0);
-		LCD_SendString(buffer);
+		if (systemState)
+		{
+			HMC5883L_GetCalibratedData(&x, &y, &z);
+			heading = CalculateHeading(x, y);
+			direct = CalculateDirect(heading);
+			sprintf(buffer, "%-2s: %-3.0f", direct, heading);
+			LCD_PutCur (0,0);
+			LCD_SendString(buffer);
+			
+		}
+		if (systemReset)
+		{
+			systemState = 1;
+			systemReset = 0;
+		}
+		DelayUs(100);
   }
 }
 
@@ -149,13 +159,13 @@ void SysTick_Handler(void) {
       GPIOB->ODR ^= GPIO_ODR_ODR9; 
     }
 }
-void EXTI0_IRQHandler()
-{
-	EXTI->PR |= EXTI_PR_PR0;
-	systemState = !systemState;
-}
 void EXTI1_IRQHandler(void)
 {
 	EXTI->PR |= EXTI_PR_PR1;
 	systemReset = 1;
+}
+void EXTI0_IRQHandler(void)
+{
+	EXTI->PR |= EXTI_PR_PR0;
+	systemState = !systemState;
 }

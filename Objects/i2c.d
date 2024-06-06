@@ -8,3 +8,4 @@
 .\objects\i2c.o: D:\Keil_uVision\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_armcc.h
 .\objects\i2c.o: D:\Keil_uVision\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include\system_stm32f10x.h
 .\objects\i2c.o: Delay.h
+.\objects\i2c.o: LCD.h

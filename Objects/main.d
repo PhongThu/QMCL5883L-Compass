@@ -13,4 +13,3 @@
 .\objects\main.o: Delay.h
 .\objects\main.o: LCD.h
 .\objects\main.o: HMC5883L.h
-.\objects\main.o: UART.h

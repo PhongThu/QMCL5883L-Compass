@@ -4,3 +4,8 @@ void HMC5883L_Init(void);
 void HMC5883L_ReadData(int16_t* x, int16_t* y, int16_t* z);
 void HMC5883L_Calibrate();
 void HMC5883L_GetCalibratedData(int16_t *x, int16_t *y, int16_t *z);
+void QMC5883L_GetCalibratedData(int16_t *x, int16_t *y, int16_t *z);
+void QMC5883L_Calibrate();
+void QMC5883L_ReadData(int16_t* x, int16_t* y, int16_t* z);
+void QMC5883L_Init(void);
+float QMC_CalculateHeading(float x, float y);

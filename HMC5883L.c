@@ -4,6 +4,7 @@
 #include "math.h"
 #include "stdio.h"
 
+#define QMC5883L_ADDRESS 0x0D
 #define HMC5883L_ADDRESS 0x1E
 
 float PI = 3.14158;
@@ -93,7 +94,7 @@ void HMC5883L_GetCalibratedData(int16_t *x, int16_t *y, int16_t *z) {
     int16_t rawX, rawY, rawZ;
     HMC5883L_ReadData(&rawX, &rawY, &rawZ);
 
-    *x = (rawX - offsetX) * avg_scale / scaleX;
+    *x = (rawX - offsetX) * avg_scale / scaleX; // Gia tri cuong do tu truong
     *y = (rawY - offsetY) * avg_scale / scaleY;
     *z = (rawZ - offsetZ) * avg_scale / scaleZ;
 }
@@ -106,4 +107,57 @@ float CalculateHeading(float x, float y) {
 
 void HMC5883L_GetOffset(char* s) {
 	sprintf(s,"OffsetX: %.2f, OffsetY: %.2f, OffsetZ: %.2f\r\n",offsetX, offsetY, offsetZ);
+}
+
+
+float QMC_CalculateHeading(float x, float y) {
+	float k = atan2(x, y)*180/PI;
+	if (k < 0)
+		k = 180 - k;
+	return k;
+}
+void QMC5883L_Init(void) {
+    // Set QMC5883L to continuous measurement mode, 200Hz, 8G range
+    I2C_WriteData(QMC5883L_ADDRESS, 0x09, 0x1D); //0001 1101 
+}
+void QMC5883L_ReadData(int16_t* x, int16_t* y, int16_t* z) {
+    int16_t buffer[6];
+    I2C_ReadData(QMC5883L_ADDRESS, 0x00, buffer, 6);
+    *x = (int16_t)(buffer[1] << 8 | buffer[0]);
+    *y = (int16_t)(buffer[3] << 8 | buffer[2]);
+    *z = (int16_t)(buffer[5] << 8 | buffer[4]);
+}
+void QMC5883L_Calibrate() {
+
+	int16_t x, y, z;
+	int16_t xMin = INT16_MAX, xMax = INT16_MIN;
+	int16_t yMin = INT16_MAX, yMax = INT16_MIN;
+	int16_t zMin = INT16_MAX, zMax = INT16_MIN;
+	QMC5883L_ReadData(&x, &y, &z);
+	DelayMs(1);
+	for (int i = 0; i < 10000; i++) {
+		QMC5883L_ReadData(&x, &y, &z);
+		
+		if (x < xMin) xMin = x;
+		if (x > xMax) xMax = x;
+		if (y < yMin) yMin = y;
+		if (y > yMax) yMax = y;
+		if (z < zMin) zMin = z;
+		if (z > zMax) zMax = z;
+		
+		DelayUs(1000);
+	}
+	
+	 offsetX = (xMax + xMin) / 2.0;
+   offsetY = (yMax + yMin) / 2.0;
+   offsetZ = (zMax + zMin) / 2.0;
+}
+
+void QMC5883L_GetCalibratedData(int16_t *x, int16_t *y, int16_t *z) {
+    int16_t rawX, rawY, rawZ;
+    QMC5883L_ReadData(&rawX, &rawY, &rawZ);
+
+    *x = rawX - offsetX;
+    *y = rawY - offsetY;
+    *z = rawZ - offsetZ;
 }
