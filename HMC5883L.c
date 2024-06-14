@@ -53,8 +53,8 @@ void HMC5883L_ReadData(int16_t* x, int16_t* y, int16_t* z) {
     I2C_ReadData(HMC5883L_ADDRESS, 0x03, buffer, 6);
 
     *x = (int16_t)(buffer[0] << 8 | buffer[1]);
-    *y = (int16_t)(buffer[2] << 8 | buffer[3]);
-    *z = (int16_t)(buffer[4] << 8 | buffer[5]);
+    *y = (int16_t)(buffer[4] << 8 | buffer[5]);
+    *z = (int16_t)(buffer[2] << 8 | buffer[3]);
 }
 
 void HMC5883L_Calibrate() {
@@ -99,10 +99,11 @@ void HMC5883L_GetCalibratedData(int16_t *x, int16_t *y, int16_t *z) {
     *z = (rawZ - offsetZ) * avg_scale / scaleZ;
 }
 float CalculateHeading(float x, float y) {
-	float k = atan2(y,x) * 180 / PI;
-	if (k < 0)
-		k = k+360;
-	return k;
+	float heading = atan2(y,x) * 180 / PI;
+	//
+	if (heading < 0)
+		heading = heading+360;
+	return heading;
 }
 
 void HMC5883L_GetOffset(char* s) {

@@ -1,6 +1,7 @@
 #include "stm32f10x.h"
 #include "I2C.h"
 #include "Delay.h"
+
 #define SLAVE_ADDRESS_LCD 0x27
 
 void LCD_Write(uint8_t address, uint8_t *data, int size) {

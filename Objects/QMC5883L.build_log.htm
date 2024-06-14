@@ -32,7 +32,19 @@ Project File Date:  06/05/2024
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil_uVision\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f10x_md.s...
+compiling LCD.c...
+I2C.h(1): warning:  #1295-D: Deprecated declaration I2C_Init - give arg types
+  void I2C_Init();
+I2C.h(2): warning:  #1295-D: Deprecated declaration I2C_Start - give arg types
+  void I2C_Start();
+I2C.h(5): warning:  #1295-D: Deprecated declaration I2C_Stop - give arg types
+  void I2C_Stop();
+I2C.h(8): warning:  #1-D: last line of file ends without a newline
+  void I2C_WriteData(uint8_t address, uint8_t reg, uint8_t data);
+LCD.c: 4 warnings, 0 errors
+compiling Delay.c...
 compiling I2C.c...
+compiling system_stm32f10x.c...
 compiling Main.c...
 I2C.h(1): warning:  #1295-D: Deprecated declaration I2C_Init - give arg types
   void I2C_Init();
@@ -48,17 +60,7 @@ HMC5883L.h(8): warning:  #1295-D: Deprecated declaration QMC5883L_Calibrate - gi
   void QMC5883L_Calibrate();
 HMC5883L.h(11): warning:  #1-D: last line of file ends without a newline
   float QMC_CalculateHeading(float x, float y);
-Main.c(95): warning:  #177-D: variable "x"  was declared but never referenced
-  	int16_t x, y, z;
-Main.c(95): warning:  #177-D: variable "y"  was declared but never referenced
-  	int16_t x, y, z;
-Main.c(95): warning:  #177-D: variable "z"  was declared but never referenced
-  	int16_t x, y, z;
-Main.c(97): warning:  #177-D: variable "direct"  was declared but never referenced
-  	char* direct = "";
-Main.c(98): warning:  #177-D: variable "heading"  was declared but never referenced
-  	float heading = 0.0;
-Main.c: 12 warnings, 0 errors
+Main.c: 7 warnings, 0 errors
 compiling HMC5883L.c...
 I2C.h(1): warning:  #1295-D: Deprecated declaration I2C_Init - give arg types
   void I2C_Init();
@@ -68,24 +70,12 @@ I2C.h(5): warning:  #1295-D: Deprecated declaration I2C_Stop - give arg types
   void I2C_Stop();
 I2C.h(8): warning:  #1-D: last line of file ends without a newline
   void I2C_WriteData(uint8_t address, uint8_t reg, uint8_t data);
-HMC5883L.c(161): warning:  #1-D: last line of file ends without a newline
+HMC5883L.c(164): warning:  #1-D: last line of file ends without a newline
   }
 HMC5883L.c: 5 warnings, 0 errors
-compiling LCD.c...
-I2C.h(1): warning:  #1295-D: Deprecated declaration I2C_Init - give arg types
-  void I2C_Init();
-I2C.h(2): warning:  #1295-D: Deprecated declaration I2C_Start - give arg types
-  void I2C_Start();
-I2C.h(5): warning:  #1295-D: Deprecated declaration I2C_Stop - give arg types
-  void I2C_Stop();
-I2C.h(8): warning:  #1-D: last line of file ends without a newline
-  void I2C_WriteData(uint8_t address, uint8_t reg, uint8_t data);
-LCD.c: 4 warnings, 0 errors
-compiling Delay.c...
-compiling system_stm32f10x.c...
 linking...
-Program Size: Code=2984 RO-data=268 RW-data=36 ZI-data=1636  
-".\Objects\QMC5883L.axf" - 0 Error(s), 21 Warning(s).
+Program Size: Code=13442 RO-data=622 RW-data=68 ZI-data=1636  
+".\Objects\QMC5883L.axf" - 0 Error(s), 16 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -113,8 +103,8 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup@1.0.0
       Source file:   Device/Source/ARM/startup_stm32f10x_md.s
-      Source file:   Device/Source/ARM/STM32F1xx_OPT.s
       Source file:   Device/Source/system_stm32f10x.c
+      Source file:   Device/Source/ARM/STM32F1xx_OPT.s
       Include file:  RTE_Driver/Config/RTE_Device.h
 Build Time Elapsed:  00:00:01
 </pre>

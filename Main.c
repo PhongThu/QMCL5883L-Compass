@@ -159,13 +159,13 @@ void SysTick_Handler(void) {
       GPIOB->ODR ^= GPIO_ODR_ODR9; 
     }
 }
-void EXTI1_IRQHandler(void)
-{
-	EXTI->PR |= EXTI_PR_PR1;
-	systemReset = 1;
-}
 void EXTI0_IRQHandler(void)
 {
 	EXTI->PR |= EXTI_PR_PR0;
+	systemReset = 1;
+}
+void EXTI1_IRQHandler(void)
+{
+	EXTI->PR |= EXTI_PR_PR1;
 	systemState = !systemState;
 }
